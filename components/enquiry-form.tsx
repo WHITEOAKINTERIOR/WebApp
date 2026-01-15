@@ -39,9 +39,10 @@ const formSchema = z.object({
 interface EnquiryFormProps {
     onSuccess?: () => void;
     showMessage?: boolean;
+    subject?: string;
 }
 
-export function EnquiryForm({ onSuccess, showMessage=false }: EnquiryFormProps) {
+export function EnquiryForm({ onSuccess, showMessage=false, subject="" }: EnquiryFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -57,18 +58,18 @@ export function EnquiryForm({ onSuccess, showMessage=false }: EnquiryFormProps) 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setIsSubmitting(true)
-            // const response = await fetch('/api/contact', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(values),
-            // })
-            // if (response.ok) {
-            if (true) {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            })
+            if (response.ok) {
                 toast({
                     title: "Success!",
-                    description: "Your message has been sent successfully.",
+                    variant:"success",
+                    description: "Your request has been sent successfully. You will be contacted soon by our team, Thank You!",
                 })
                 form.reset()
                 onSuccess?.()
@@ -79,7 +80,7 @@ export function EnquiryForm({ onSuccess, showMessage=false }: EnquiryFormProps) 
             console.error("Error submitting form:", error)
             toast({
                 title: "Error",
-                description: "There was an error submitting your enquiry. Please try again later.",
+                description: "There was an error submitting your request. Please try again later.",
                 variant: "destructive",
             })
         } finally {
