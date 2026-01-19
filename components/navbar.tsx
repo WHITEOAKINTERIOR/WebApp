@@ -1,11 +1,11 @@
 // components/navbar.tsx
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Home, Info, Briefcase, Image as ImageIcon, Phone, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { commonContent } from "@/content/sharedContent"
@@ -45,10 +45,26 @@ export function Navbar() {
     }, [])
 
     const navItems = [
-        { name: "Home", href: "/" },
-        { name: "About", href: "/about" },
-        { name: "Services", href: "/services" },
-        { name: "Our Works", href: "/our-works" }
+        { 
+            name: "Home", 
+            href: "/",
+            icon: <Home className="w-4 h-4 mr-2" />
+        },
+        { 
+            name: "About", 
+            href: "/about",
+            icon: <Info className="w-4 h-4 mr-2" />
+        },
+        { 
+            name: "Services", 
+            href: "/services",
+            icon: <Briefcase className="w-4 h-4 mr-2" />
+        },
+        { 
+            name: "Our Works", 
+            href: "/our-works",
+            icon: <ImageIcon className="w-4 h-4 mr-2" />
+        }
     ]
 
     // Determine if we should use fixed positioning
@@ -56,12 +72,12 @@ export function Navbar() {
     return (
         <header
             className={`w-full ${shouldBeFixed
-                ? "fixed bg-background/95 top-0 left-0 right-0 backdrop-blur-md shadow-lg z-50"
+                ? "fixed bg-primary/95 top-0 left-0 right-0 backdrop-blur-md shadow-lg z-50"
                 : "absolute top-8 left-0 right-0 z-50"
                 }`}
         >
             <div className={`container mx-auto px-4 ${!shouldBeFixed
-                ? "bg-background/95 rounded-lg"
+                ? "bg-primary/95 rounded-lg"
                 : ""
                 }`}>
                 <div className="flex justify-between items-center h-[4.25rem]">
@@ -72,11 +88,11 @@ export function Navbar() {
                             alt={commonContent.companyName}
                             width={160}  // Adjust based on your logo's aspect ratio
                             height={160}  // Adjust based on your logo's aspect ratio
-                            className="h-16 w-auto"  // Maintain aspect ratio
+                            className="h-12 w-auto"  // Maintain aspect ratio
                             priority
                         />
                         <span className="sr-only">{commonContent.companyName}</span>
-                        <span className="text-xl px-[0.5rem] font-bold text-foreground/50 whitespace-nowrap">
+                        <span className="text-xl px-[0.5rem] font-bold text-primary-foreground whitespace-nowrap">
                             {commonContent.companyName}
                         </span>
                     </Link>
@@ -93,19 +109,37 @@ export function Navbar() {
                                         key={item.name}
                                         href={item.href}
                                         className={cn(
-                                            "relative py-1 px-1 transition-colors duration-200 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300",
+                                            "relative py-2 px-4 transition-all duration-300 group hover:bg-foreground/5 rounded-lg",
                                             isActive
-                                                ? "text-foreground font-semibold after:w-full"
-                                                : "text-foreground/80 hover:text-foreground after:w-0 hover:after:w-full after:bg-foreground/20"
+                                                ? "text-foreground font-semibold bg-foreground/10"
+                                                : "text-foreground/80 hover:text-foreground"
                                         )}
                                     >
-                                        {item.name}
+                                        <span className="relative z-10 flex flex-col items-center align-center">
+                                            {React.cloneElement(item.icon, {
+                                                className: cn(
+                                                    "w-4 h-4 transition-transform duration-300",
+                                                    isActive ? "scale-110" : "group-hover:scale-110"
+                                                )
+                                            })}
+                                            <span className="relative">
+                                                {item.name}
+                                                <span className={cn(
+                                                    "absolute -bottom-1 left-0 w-0 h-0.5 bg-foreground transition-all duration-300",
+                                                    isActive ? "w-full" : "group-hover:w-full"
+                                                )} />
+                                            </span>
+                                        </span>
                                     </Link>
                                 )
                             })}
                         </nav>
                         <Link href="/contact" passHref>
-                            <Button size="sm" className="ml-8">
+                            <Button 
+                                size="sm" 
+                                variant="outline"
+                                className="ml-8 border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 transition-all duration-300"
+                            >
                                 Contact Us
                             </Button>
                         </Link>
@@ -116,6 +150,7 @@ export function Navbar() {
                         <Button
                             variant="ghost"
                             size="icon"
+                            className="md:hidden text-primary-foreground hover:bg-primary-foreground/20"
                             onClick={() => setIsOpen(!isOpen)}
                             aria-label="Toggle menu"
                         >
@@ -130,21 +165,38 @@ export function Navbar() {
                         <div className="px-2 pt-2 pb-3 space-y-1">
                             {navItems.map((item) => (
                                 <Link
-                                    key={item.name}
+                                    key={item.href}
                                     href={item.href}
                                     className={cn(
-                                        "block px-3 py-2 rounded-md text-base font-medium transition-colors",
-                                        pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
-                                            ? "text-foreground bg-accent/30 font-semibold"
-                                            : "text-foreground/80 hover:bg-accent/10 hover:text-foreground"
+                                        "px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center group",
+                                        pathname === item.href
+                                            ? "text-foreground font-semibold bg-foreground/5"
+                                            : "text-foreground/80 hover:text-foreground hover:bg-foreground/5"
                                     )}
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    {item.name}
+                                    {React.cloneElement(item.icon, {
+                                        className: cn(
+                                            "w-4 h-4 mr-3 transition-transform duration-300",
+                                            pathname === item.href ? "scale-110" : "group-hover:scale-110"
+                                        )
+                                    })}
+                                    <span className="relative">
+                                        {item.name}
+                                        <span className={cn(
+                                            "absolute -bottom-1 left-0 w-0 h-0.5 bg-foreground transition-all duration-300",
+                                            pathname === item.href ? "w-full" : "group-hover:w-full"
+                                        )} />
+                                    </span>
                                 </Link>
                             ))}
                             <Link href="/contact" passHref className="w-full block">
-                                <Button className="w-full mt-2" size="sm" onClick={() => setIsOpen(false)}>
+                                <Button 
+                                    variant="outline"
+                                    className="w-full mt-2 border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 transition-all duration-300"
+                                    size="sm" 
+                                    onClick={() => setIsOpen(false)}
+                                >
                                     Contact Us
                                 </Button>
                             </Link>

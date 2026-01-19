@@ -30,7 +30,7 @@ export const projectsContent: ProjectsContent = {
       category: "Residential",
       description: "A stunning high-end apartment featuring contemporary design with premium finishes, floor-to-ceiling windows, and smart home technology throughout.",
       image: "/images/projects/living-room.jpg",
-      location: "Manhattan, NY",
+      location: "Sector-62, Noida, India",
       updatedAt: "2026-01-15"
     },
     {

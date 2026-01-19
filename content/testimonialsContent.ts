@@ -33,8 +33,8 @@ export const testimonialsContent: TestimonialsContent = {
   testimonials: [
     {
       id: 1,
-      name: "Sarah Johnson",
-      role: "Homeowner",
+      name: "Jitendra Singh",
+      role: "Tenant",
       company: "",
       avatar: "/images/testimonials/client1.jpg",
       content: "The team transformed our apartment into a modern masterpiece. Their attention to detail and design expertise is unmatched. We couldn't be happier with the results!",

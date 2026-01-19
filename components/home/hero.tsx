@@ -51,12 +51,12 @@ export function Hero() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                     {/* Left side - Content (2/3 width on lg screens) */}
                     <div className="lg:col-span-2 space-y-6 justify-center">
-                        <h1 className="text-4xl text-center md:text-5xl lg:text-6xl font-bold tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)]">
+                        <h3 className="text-2xl text-center md:text-5xl font-bold tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)]">
                             {heroContent.heading}
-                        </h1>
-                        <h1 className="text-4xl text-center md:text-5xl lg:text-6xl font-bold tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)]">
+                        </h3>
+                        <h3 className="text-2xl text-center md:text-5xl font-bold tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)]">
                             {commonContent.companyName}
-                        </h1>
+                        </h3>
                         <div className="flex flex-wrap flex-col gap-4 pt-4 w-full items-center">
                                 <Button variant={"default"} className='w-64'                               >
                                     <Link href='/services'>
