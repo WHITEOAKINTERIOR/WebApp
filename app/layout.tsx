@@ -6,6 +6,7 @@ import { FloatingButtons } from "@/components/floating-buttons";
 import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import { commonContent } from "@/content/sharedContent";
+import { CookieBanner } from "@/components/cookie-banner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     'false ceiling design',
     'living room design',
     'bedroom interior design',
-    
+
     // Location-Based
     'interior designers in Mumbai',
     'best interior designers in Delhi NCR',
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     'Pune budget interior design',
     'Kolkata modern home decor',
     'Ahmedabad interior designers',
-    
+
     // Design Styles
     'contemporary interior design',
     'modern minimalist interiors',
@@ -52,14 +53,14 @@ export const metadata: Metadata = {
     'traditional Indian interior design',
     'fusion interior design',
     'eco-friendly interior design',
-    
+
     // Trending
     'smart home interior design',
     'sustainable interior materials',
     'biophilic design India',
     'home office design',
     'modular furniture design',
-    
+
     // Hindi Keywords
     'घर का इंटीरियर डिज़ाइन',
     'आधुनिक घर का डिज़ाइन',
@@ -115,17 +116,17 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/images/logo.png', type: 'image/png' },
+      { url: '/images/favicon.png', type: 'image/png' },
       { url: '/images/logo-32x32.png', type: 'image/png', sizes: '32x32' },
       { url: '/images/logo-16x16.png', type: 'image/png', sizes: '16x16' },
     ],
-    apple: '/images/logo.png',
-    shortcut: '/images/logo.png',
+    apple: '/images/favicon.png',
+    shortcut: '/images/favicon.png',
   },
   appleWebApp: {
     title: 'White Oak Interior',
     statusBarStyle: 'black-translucent',
-    startupImage: '/images/logo.png',
+    startupImage: '/images/favicon.png',
   },
   formatDetection: {
     telephone: true,
@@ -161,6 +162,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "White Oak Interior",
+              "url": "https://www.whiteoakinterior.com",
+              "logo": "https://www.whiteoakinterior.com/images/favicon.png",
+              "sameAs": [
+                "https://www.facebook.com/yourpage",
+                "https://www.instagram.com/yourprofile",
+                "https://www.linkedin.com/company/yourcompany"
+              ]
+            })
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -171,7 +191,9 @@ export default function RootLayout({
           <Footer />
           <FloatingButtons />
           <Toaster />
+          <CookieBanner />
         </main>
+       
       </body>
     </html>
   );
