@@ -9,6 +9,7 @@ export interface Project {
   location: string;
   link?: string;
   tags?: string[];
+  updatedAt?: string;
 }
 
 export interface ProjectsContent {
@@ -29,7 +30,8 @@ export const projectsContent: ProjectsContent = {
       category: "Residential",
       description: "A stunning high-end apartment featuring contemporary design with premium finishes, floor-to-ceiling windows, and smart home technology throughout.",
       image: "/images/projects/living-room.jpg",
-      location: "Manhattan, NY"
+      location: "Manhattan, NY",
+      updatedAt: "2026-01-15"
     },
     {
       id: "Modern-Office",
@@ -37,7 +39,8 @@ export const projectsContent: ProjectsContent = {
       category: "Commercial",
       description: "Sleek and functional office space designed to inspire creativity and productivity, featuring open work areas, private meeting rooms, and modern amenities.",
       image: "/images/projects/office-space.jpg",
-      location: "San Francisco, CA"
+      location: "San Francisco, CA",
+      updatedAt: "2026-01-15"
     },
     {
       id: "Elegant-Villa",
@@ -45,7 +48,8 @@ export const projectsContent: ProjectsContent = {
       category: "Residential",
       description: "Luxurious waterfront villa offering breathtaking ocean views, spacious interiors, and resort-style amenities in an exclusive neighborhood.",
       image: "/images/projects/bedroom.jpg",
-      location: "Miami, FL"
+      location: "Miami, FL",
+      updatedAt: "2026-01-15"
     },
     {
       id: "Minimalist-Studio",
@@ -53,7 +57,8 @@ export const projectsContent: ProjectsContent = {
       category: "Residential",
       description: "Compact yet functional studio apartment featuring smart storage solutions, multi-functional furniture, and a clean, minimalist aesthetic.",
       image: "/images/projects/kitchen.jpg",
-      location: "Seattle, WA"
+      location: "Seattle, WA",
+      updatedAt: "2026-01-15"
     },
     {
       id: "Cozy-Lounge",
@@ -61,7 +66,8 @@ export const projectsContent: ProjectsContent = {
       category: "Commercial",
       description: "Inviting lounge area with comfortable seating, warm lighting, and a relaxed atmosphere perfect for socializing or quiet relaxation.",
       image: "/images/projects/lounge.jpg",
-      location: "Chicago, IL"
+      location: "Chicago, IL",
+      updatedAt: "2026-01-15"
     },
     {
       id: "Modern-Kitchen",
@@ -69,7 +75,8 @@ export const projectsContent: ProjectsContent = {
       category: "Residential",
       description: "State-of-the-art kitchen design featuring high-end appliances, custom cabinetry, and an open-concept layout perfect for entertaining.",
       image: "/images/projects/kitchen.jpg",
-      location: "Boston, MA"
+      location: "Boston, MA",
+      updatedAt: "2026-01-15"
     }
   ]
 };
