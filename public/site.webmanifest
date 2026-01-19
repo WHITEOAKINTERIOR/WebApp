@@ -1,0 +1,19 @@
+{
+  "name": "White Oak Interior",
+  "short_name": "White Oak Interior",
+  "icons": [
+    {
+      "src": "/images/favicon.png",
+      "sizes": "115x115",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/favicon.png",
+      "sizes": "115x115",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#919073",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

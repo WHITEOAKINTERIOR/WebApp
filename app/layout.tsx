@@ -116,7 +116,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/images/favicon.png', type: 'image/png' },
+      { url: '/images/favicon.png', type: 'image/png', sizes: 'any' },
       { url: '/images/logo-32x32.png', type: 'image/png', sizes: '32x32' },
       { url: '/images/logo-16x16.png', type: 'image/png', sizes: '16x16' },
     ],
@@ -163,6 +163,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/favicon.png" sizes="any" />
+        {/* <link rel="icon" href="/images/logo.svg" type="image/svg+xml" /> */}
+        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
