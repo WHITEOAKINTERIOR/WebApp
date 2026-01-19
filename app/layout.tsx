@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `White Oak Interior | Premier Interior Design Services in India`,
-  description: `Transform your space with White Oak Interior - Leading interior designers in India. Specializing in modern, luxury, and affordable home & office interiors. Get a free design consultation today!`,
+  title: `White Oak Interior | A Premier Interior Designer`,
+  description: `Leading interior designers in India. Get a free design consultation today!`,
   keywords: [
     // Core Services
     'interior design services in India',
