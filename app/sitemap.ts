@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = ['', '/about', '/contact', '/services', '/our-work'].map(route => ({
     url: `${URL}${route}`,
     lastModified: new Date().toISOString().split('T')[0],
-    changeFrequency: 'weekly' as const,
+    changeFrequency: 'daily' as const,
     priority: route === '' ? 1 : 0.8,
   }))
 
@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const workRoutes = works.map(work => ({
     url: `${URL}/our-work/${work.id}`,
     lastModified: work.updatedAt || new Date().toISOString().split('T')[0],
-    changeFrequency: 'monthly' as const,
+    changeFrequency: 'daily' as const,
     priority: 0.7,
   }))
 

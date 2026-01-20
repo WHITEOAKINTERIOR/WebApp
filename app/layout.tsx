@@ -116,12 +116,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/images/favicon.png', type: 'image/png', sizes: 'any' },
-      { url: '/images/logo-32x32.png', type: 'image/png', sizes: '32x32' },
-      { url: '/images/logo-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/images/logo-192x192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/images/logo-512x512.png', type: 'image/png', sizes: '512x512' },
     ],
-    apple: '/images/favicon.png',
-    shortcut: '/images/favicon.png',
+    apple: '/images/apple-touch-icon.png',
+    shortcut: '/favicon.ico',
   },
   appleWebApp: {
     title: 'White Oak Interior',
@@ -163,8 +163,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.png" sizes="any" />
-        {/* <link rel="icon" href="/images/logo.svg" type="image/svg+xml" /> */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <script
@@ -197,7 +197,7 @@ export default function RootLayout({
           <Toaster />
           <CookieBanner />
         </main>
-       
+
       </body>
     </html>
   );
