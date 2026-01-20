@@ -24,7 +24,7 @@ import { Textarea } from "./ui/textarea"
 const formSchema = z.object({
     name: z.string().min(2, {
         message: "Name must be at least 2 characters.",
-    }),
+    }).optional().or(z.literal("")),
     email: z.string().email().optional().or(z.literal("")),
     phone: z.string().optional().or(z.literal("")),
     message: z.string().optional(),
@@ -98,7 +98,7 @@ export function EnquiryForm({ onSuccess, showMessage=false, subject="" }: Enquir
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Name *</FormLabel>
+                                    <FormLabel>Name</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Your name" {...field} />
                                     </FormControl>

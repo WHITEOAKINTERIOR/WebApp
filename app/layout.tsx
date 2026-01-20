@@ -142,7 +142,7 @@ export const metadata: Metadata = {
   category: 'Interior Design Services',
   classification: 'Interior Design Company',
   abstract: 'White Oak Interior offers premium interior design services across India, specializing in residential and commercial spaces with a focus on modern, sustainable, and innovative designs.',
-  // themeColor: '#ffffff',
+  themeColor: '#919073',
   // viewport: {
   //   width: 'device-width',
   //   initialScale: 1,
