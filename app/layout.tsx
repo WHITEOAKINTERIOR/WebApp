@@ -126,7 +126,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     title: 'White Oak Interior',
     statusBarStyle: 'black-translucent',
-    startupImage: '/images/favicon.png',
+    startupImage: '/images/logo.png',
   },
   formatDetection: {
     telephone: true,
@@ -134,7 +134,7 @@ export const metadata: Metadata = {
     address: true,
   },
   verification: {
-    google: 'YOUR_GOOGLE_SEARCH_CONSOLE_KEY',
+    google: '5SmuCKYZf7196C_DX-JbOPKO1kNKYq8lEyx1Yf3u4Ms',
     yandex: 'YANDEX_VERIFICATION_KEY',
   },
   // Additional metadata for better search visibility
@@ -175,7 +175,7 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "White Oak Interior",
               "url": "https://www.whiteoakinterior.com",
-              "logo": "https://www.whiteoakinterior.com/images/favicon.png",
+              "logo": "https://www.whiteoakinterior.com/images/logo.png",
               "sameAs": [
                 "https://www.facebook.com/yourpage",
                 "https://www.instagram.com/yourprofile",

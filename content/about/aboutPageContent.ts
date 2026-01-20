@@ -91,19 +91,19 @@ export const aboutPageContent: AboutContent = {
         id: 1,
         name: "Sarah Johnson",
         role: "Lead Designer",
-        image: "/images/team-1.jpg"
+        image: "/images/team/team-1.jpg"
       },
       {
         id: 2,
         name: "Michael Chen",
         role: "Senior Architect",
-        image: "/images/team-2.jpg"
+        image: "/images/team/team-2.jpg"
       },
       {
         id: 3,
         name: "Emily Rodriguez",
         role: "Project Manager",
-        image: "/images/team-3.jpg"
+        image: "/images/team/team-3.jpg"
       }
     ]
   },
