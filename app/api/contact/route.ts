@@ -8,7 +8,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { name: rawName = 'Guest', email, phone, message = '', subject = 'New Enquiry' } = body;
+        const { name: rawName = 'Guest', email, phone, message = '', subject = 'New Enquiry', address="No address found", address_method="None" } = body;
         const name = !rawName || rawName.trim() === '' ? 'Guest' :
             rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase();
         
@@ -29,6 +29,8 @@ export async function POST(request: Request) {
         Email: ${email || 'Not provided'}
         Phone: ${phone || 'Not provided'}
         Message: ${message || 'No message provided'}
+        Address: ${address}
+        Address_Method: ${address_method}
       `,
             html: `
         <h2>New Enquiry</h2>
@@ -36,6 +38,8 @@ export async function POST(request: Request) {
         <p><strong>Email:</strong> ${email || 'Not provided'}</p>
         <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
         ${message ? `<p><strong>Message:</strong><br>${message}</p>` : ''}
+        <p><strong>Address_Method:</strong><br>${address_method}</p>
+        <p><strong>Address:</strong><br>${address}</p>
       `,
         });
 

@@ -20,6 +20,7 @@ import { toast } from "@/hooks/use-toast"
 
 import { commonContent } from "@/content/sharedContent"
 import { Textarea } from "./ui/textarea"
+import { formatAddress, getLocation } from "@/lib/location"
 
 const formSchema = z.object({
     name: z.string().min(2, {
@@ -42,7 +43,7 @@ interface EnquiryFormProps {
     subject?: string;
 }
 
-export function EnquiryForm({ onSuccess, showMessage=false, subject="" }: EnquiryFormProps) {
+export function EnquiryForm({ onSuccess, showMessage = false, subject = "" }: EnquiryFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -51,24 +52,29 @@ export function EnquiryForm({ onSuccess, showMessage=false, subject="" }: Enquir
             name: "",
             email: "",
             phone: "",
-             ...(showMessage && { message: "" })
+            ...(showMessage && { message: "" })
         },
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setIsSubmitting(true)
+            const location = await getLocation();
+
+            // Format the address for display
+            const formattedAddress = formatAddress(location.address);
+            
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify({...values, address: formattedAddress, address_method: location.method}),
             })
             if (response.ok) {
                 toast({
                     title: "Success!",
-                    variant:"success",
+                    variant: "success",
                     description: "Your request has been sent successfully. You will be contacted soon by our team, Thank You!",
                 })
                 form.reset()
@@ -141,23 +147,23 @@ export function EnquiryForm({ onSuccess, showMessage=false, subject="" }: Enquir
                             )}
                         />
                         {showMessage && (
-                        <FormField
-                            control={form.control}
-                            name="message"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Message</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder="Tell us more about your project..."
-                                            className="min-h-[120px]"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={form.control}
+                                name="message"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Message</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                placeholder="Tell us more about your project..."
+                                                className="min-h-[120px]"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         )}
                     </div>
                     <div className="pt-0">
