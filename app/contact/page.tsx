@@ -30,7 +30,7 @@ export default function ContactPage() {
               </div>
 
               <div className="px-2 md:px-16">
-                <EnquiryForm showMessage={true} />
+                <EnquiryForm showMessage={true} showLookingFor={false} />
               </div>
             </div>
 

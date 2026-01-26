@@ -7,12 +7,37 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
-        const { name: rawName = 'Guest', email, phone, message = '', subject = 'New Enquiry', address="No address found", address_method="None" } = body;
+        let body;
+        const contentType = request.headers.get('content-type');
+
+        // Handle different content types
+        if (contentType?.includes('application/x-www-form-urlencoded')) {
+            const formData = await request.formData();
+            const formDataObj = Object.fromEntries(formData.entries());
+            body = {
+                ...formDataObj,
+                auto_submit: formDataObj.auto_submit === 'true'  // Convert to boolean here
+            };
+        } else if (contentType?.includes('application/json')) {
+            body = await request.json();
+        } else {
+            // Try to parse as JSON if content-type is not set
+            try {
+                body = await request.json();
+            } catch {
+                return new Response(
+                    JSON.stringify({ error: 'Invalid content type' }),
+                    { status: 400, headers: { 'Content-Type': 'application/json' } }
+                );
+            }
+        }
+
+        const { lookingFor: rawLookingFor = "", name: rawName = 'Guest', email, phone, message = '', subject = 'New Enquiry', address = "No address found", address_method = "None", auto_submit = false } = body;
+        const lookingFor = rawLookingFor ? rawLookingFor.charAt(0).toUpperCase() + rawLookingFor.slice(1) : "";
         const name = !rawName || rawName.trim() === '' ? 'Guest' :
             rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase();
-        
-            if (!email && !phone) {
+
+        if (!email && !phone) {
             return NextResponse.json(
                 { error: 'Either email or phone is required' },
                 { status: 400 }
@@ -25,21 +50,25 @@ export async function POST(request: Request) {
             to: [process.env.ADMIN_EMAIL || 'info@whiteoakinterior.com'],
             subject: `New Enquiry from ${name}`,
             text: `
+           LookingFor: ${lookingFor}
         Name: ${name}
         Email: ${email || 'Not provided'}
         Phone: ${phone || 'Not provided'}
         Message: ${message || 'No message provided'}
         Address: ${address}
         Address_Method: ${address_method}
+        Auto_Submit: ${auto_submit}
       `,
             html: `
         <h2>New Enquiry</h2>
+        <p><strong>LookingFor:</strong> ${lookingFor}</p>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email || 'Not provided'}</p>
         <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
-        ${message ? `<p><strong>Message:</strong><br>${message}</p>` : ''}
-        <p><strong>Address_Method:</strong><br>${address_method}</p>
-        <p><strong>Address:</strong><br>${address}</p>
+        ${message ? `<p><strong>Message:</strong><br> ${message}</p>` : ''}
+        <p><strong>Address_Method:</strong> ${address_method}</p>
+        <p><strong>Address:</strong> ${address}</p>
+        <p><strong>Auto_Submit:</strong> ${auto_submit}</p>
       `,
         });
 
@@ -49,7 +78,7 @@ export async function POST(request: Request) {
         }
 
         // Send thank you email to the requester if email was provided
-        if (email) {
+        if (email && !auto_submit) {
             const { error: thankYouError } = await resend.emails.send({
                 from: 'White Oak Interior <info@whiteoakinterior.com>',
                 to: email,
@@ -62,7 +91,8 @@ export async function POST(request: Request) {
         <p>We have received your enquiry and our team will review it shortly. We'll get back to you as soon as possible.</p>
         <p>Here's a summary of your enquiry:</p>
         <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #919073; margin: 15px 0;">
-          <p><strong>Name:</strong> ${name}</p>
+        <p><strong>LookingFor:</strong> ${lookingFor}</p>  
+        <p><strong>Name:</strong> ${name}</p>
           ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
           ${message ? `<p><strong>Your Message:</strong><br>${message}</p>` : ''}
         </div>

@@ -4,8 +4,9 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
     Form,
     FormControl,
@@ -17,8 +18,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Loader2 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
-
-import { commonContent } from "@/content/sharedContent"
 import { Textarea } from "./ui/textarea"
 import { formatAddress, getLocation } from "@/lib/location"
 
@@ -29,6 +28,7 @@ const formSchema = z.object({
     email: z.string().email().optional().or(z.literal("")),
     phone: z.string().optional().or(z.literal("")),
     message: z.string().optional(),
+    lookingFor: z.enum(["residential", "commercial"]).optional(),
 }).refine(
     (data) => data.email || data.phone,
     {
@@ -40,11 +40,13 @@ const formSchema = z.object({
 interface EnquiryFormProps {
     onSuccess?: () => void;
     showMessage?: boolean;
+    showLookingFor?: boolean;
     subject?: string;
 }
 
-export function EnquiryForm({ onSuccess, showMessage = false, subject = "" }: EnquiryFormProps) {
+export function EnquiryForm({ onSuccess, showMessage = false, showLookingFor = true, subject = "" }: EnquiryFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const beaconSentRef = useRef(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -52,9 +54,112 @@ export function EnquiryForm({ onSuccess, showMessage = false, subject = "" }: En
             name: "",
             email: "",
             phone: "",
-            ...(showMessage && { message: "" })
+            ...(showMessage && { message: "" }),
+            ...(showLookingFor && { lookingFor: "residential" })
         },
     })
+
+    // In your form component
+    useEffect(() => {
+        // Handle tab/window switch
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'hidden' && shouldAutoSubmit()) {
+                sendBeacon();
+            }
+        };
+
+        // Handle page unload
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (shouldAutoSubmit()) {
+                sendBeacon();
+                // Modern browsers require this to show confirmation dialog
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        };
+
+        // Handle mouse leave (optional)
+        // const handleMouseLeave = (e: MouseEvent) => {
+        //     if (e.clientY < 0 && shouldAutoSubmit()) {
+        //         sendBeacon();
+        //     }
+        // };
+
+        // Use sendBeacon for reliable submission
+        const sendBeacon = async () => {
+
+            // Prevent duplicate submissions
+            if (beaconSentRef.current) {
+                return;
+            }
+
+            try {
+                beaconSentRef.current = true; // Mark as sent
+                const { email, phone } = form.getValues();
+                const location = await getLocation(true); // You might want to handle this differently for beacon
+
+                const data = {
+                    email: email || '',
+                    phone: phone || '',
+                    auto_submit: true,
+                    // Include other necessary fields with default values
+                    name: '',
+                    message: '',
+                    address: formatAddress(location.address),
+                    address_method: 'IP'
+                };
+
+                if (navigator.sendBeacon) {
+                    const blob = new Blob(
+                        [JSON.stringify(data)],
+                        { type: 'application/json' }
+                    );
+                    navigator.sendBeacon('/api/contact', blob);
+                } else {
+                    // Fallback to fetch with keepalive
+                    fetch('/api/contact', {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        keepalive: true // This is the key part
+                    }).catch(console.error);
+                }
+            } catch (error) {
+                // Reset the flag on error to allow retries
+                beaconSentRef.current = false;
+            }
+        };
+
+        // Add event listeners
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        // document.addEventListener('mouseleave', handleMouseLeave);
+
+        return () => {
+            // Clean up
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            beaconSentRef.current = false; // Reset on unmount
+            // document.removeEventListener('mouseleave', handleMouseLeave);
+        };
+    }, [form.getValues()]);
+
+    // Helper function to determine if we should auto-submit
+    const shouldAutoSubmit = () => {
+        const { email, phone } = form.getValues();
+        const emailState = form.getFieldState('email');
+        const phoneState = form.getFieldState('phone');
+
+        // Check if fields are valid (either valid or empty)
+        const isEmailValid = !email || !emailState.invalid;
+        const isPhoneValid = !phone || !phoneState.invalid;
+
+        // Only auto-submit if exactly one field is filled and valid
+        return (email && !phone && isEmailValid) ||
+            (!email && phone && isPhoneValid);
+    };
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
@@ -63,13 +168,13 @@ export function EnquiryForm({ onSuccess, showMessage = false, subject = "" }: En
 
             // Format the address for display
             const formattedAddress = formatAddress(location.address);
-            
+
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({...values, address: formattedAddress, address_method: location.method}),
+                body: JSON.stringify({ ...values, address: formattedAddress, address_method: location.method }),
             })
             if (response.ok) {
                 toast({
@@ -97,8 +202,40 @@ export function EnquiryForm({ onSuccess, showMessage = false, subject = "" }: En
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md">
-                <div className="space-y-2 flex flex-col">
-                    <div className="flex-1 overflow-y-auto pr-2 space-y-2">
+                <div className="space-y-1 flex flex-col">
+                    <div className="flex-1 overflow-y-auto pr-2 space-y-1">
+                        {showLookingFor && (<FormField
+                            control={form.control}
+                            name="lookingFor"
+                            render={({ field }) => (
+                                <FormItem className="space-y-2">
+                                    <FormLabel>Looking for</FormLabel>
+                                    <FormControl>
+                                        <RadioGroup
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                            className="flex space-x-4 justify-between"
+                                        >
+                                            <FormItem className="flex items-center space-x-2 space-y-0 ">
+                                                <FormControl>
+                                                    <RadioGroupItem value="residential" />
+                                                </FormControl>
+                                                <FormLabel className="font-light hover:cursor-pointer">Residential</FormLabel>
+                                            </FormItem>
+                                            <FormItem className="flex items-center space-x-2 space-y-0 hover:cursor-pointer">
+                                                <FormControl>
+                                                    <RadioGroupItem value="commercial" />
+                                                </FormControl>
+                                                <FormLabel className="font-light hover:cursor-pointer">Commercial</FormLabel>
+                                            </FormItem>
+
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />)}
+
                         <FormField
                             control={form.control}
                             name="name"
@@ -146,6 +283,7 @@ export function EnquiryForm({ onSuccess, showMessage = false, subject = "" }: En
                                 </FormItem>
                             )}
                         />
+
                         {showMessage && (
                             <FormField
                                 control={form.control}

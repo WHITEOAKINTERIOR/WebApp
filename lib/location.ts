@@ -152,37 +152,39 @@ const getBrowserLocation = async (): Promise<Omit<LocationData, 'method' | 'erro
 };
 
 // Main export
-export const getLocation = async (): Promise<LocationData> => {
-  // Try HTML5 Geolocation first
-  try {
-    const browserLocation = await getBrowserLocation();
-    return {
-      ...browserLocation,
-      method: 'browser',
-      error: null
-    };
-  } catch (browserError) {
-    console.warn('Browser geolocation failed, falling back to IP geolocation');
-    
-    // Fall back to IP-based geolocation
+export const getLocation = async (auto_submit = false): Promise<LocationData> => {
+  // Skip browser geolocation for auto-submit to avoid permission dialogs
+  if (!auto_submit) {
     try {
-      const ipLocation = await getIPLocation();
+      const browserLocation = await getBrowserLocation();
       return {
-        ...ipLocation,
-        method: 'ip',
+        ...browserLocation,
+        method: 'browser',
         error: null
       };
-    } catch (ipError) {
-      console.error('IP geolocation failed:', ipError);
-      return {
-        latitude: null,
-        longitude: null,
-        accuracy: null,
-        method: null,
-        error: 'Unable to determine your location',
-        address: undefined
-      };
+    } catch (browserError) {
+      console.warn('Browser geolocation failed, falling back to IP geolocation');
     }
+  }
+
+  // Fall back to IP-based geolocation for auto-submit or if browser geolocation fails
+  try {
+    const ipLocation = await getIPLocation();
+    return {
+      ...ipLocation,
+      method: 'ip',
+      error: null
+    };
+  } catch (ipError) {
+    console.error('IP geolocation failed:', ipError);
+    return {
+      latitude: null,
+      longitude: null,
+      accuracy: null,
+      method: null,
+      error: 'Unable to determine your location',
+      address: undefined
+    };
   }
 };
 
