@@ -130,13 +130,13 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary text-white">
+      <section className="py-20 bg-primary/5">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">{cta.title}</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
             {cta.description}
           </p>
-          <Button asChild variant={cta.button.variant as any} size="lg" className="text-primary">
+          <Button asChild size="lg">
             <Link href={cta.button.href || '#'}>{cta.button.text}</Link>
           </Button>
         </div>

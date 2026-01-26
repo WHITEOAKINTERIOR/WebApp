@@ -202,7 +202,7 @@ function TestimonialCard({ testimonial, onPlayVideo }: {
         <div className="relative bg-muted rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 h-full flex flex-col">
             <div className="flex items-center mb-6">
                 <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-primary/20 mr-4 bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
-                    {imgError ? (
+                    {!imgSrc || imgError ? (
                         <div className="h-full w-full flex items-center justify-center bg-primary/10 text-primary font-bold text-xl">
                             {testimonial.name.split(' ').map((n: string) => n[0]).join('')}
                         </div>

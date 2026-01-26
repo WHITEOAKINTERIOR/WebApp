@@ -8,6 +8,8 @@ import { servicesPageContent } from '@/content/services/servicesPageContent';
 import { SectionHeading } from '@/components/shared/section-heading';
 import { servicesContent } from '@/content/services/servicesSectionContent';
 import { PageHero } from '@/components/shared/page-hero';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 
 export default function ServicesPage() {
@@ -97,12 +99,10 @@ export default function ServicesPage() {
             <p className="text-gray-600 mb-8">
               Let's discuss how we can bring your vision to life with our expert design services.
             </p>
-            <a
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors"
-            >
-              Get Started
-            </a>
+            <Button asChild size="lg">
+              <Link href="/contact">Get Started</Link>
+            </Button>
+            
           </div>
         </div>
       </section>

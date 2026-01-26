@@ -23,13 +23,13 @@ export function SectionHeading({
           {subtitle}
         </p>
       )}
-      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight">
+      <h3 className="text-xl md:text-3xl font-bold tracking-tight">
         {title}{"\u00a0"}
         {highlightText && (
           <span className={cn("relative inline-block group", highlightClassName)}>
             <span className="relative z-10">{highlightText}</span>
             <span 
-              className="absolute inset-0 bg-primary/80 -skew-x-6 transform transition-all duration-300 
+              className="absolute inset-0 bg-primary -skew-x-6 transform transition-all duration-300 
                          z-1 rounded"
             />
           </span>

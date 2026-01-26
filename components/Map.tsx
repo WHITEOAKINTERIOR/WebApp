@@ -39,8 +39,8 @@ interface MapProps {
 }
 
 export const Map = ({
-  center = [28.6139, 77.2090],
-  zoom = 15,
+  center = [28.5355, 77.3910],
+  zoom = 10,
   height = '500px',
   className = '',
   markerText = 'White Oak Interior Design',

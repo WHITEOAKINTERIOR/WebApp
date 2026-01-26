@@ -61,6 +61,45 @@ export const metadata: Metadata = {
     'home office design',
     'modular furniture design',
 
+    // Vastu-related keywords
+    'Vastu compliant interior design',
+    'Vastu Shastra for home interiors',
+    'Vastu based home design',
+    'Vastu for modern homes',
+    'Vastu for office interiors',
+    'Vastu for bedroom design',
+    'Vastu for kitchen design',
+    'Vastu for living room',
+    'Vastu for positive energy',
+    'Vastu for wealth and prosperity',
+    'Vastu consultant for home interiors',
+    'Vastu principles in interior design',
+    'Vastu for apartment interiors',
+    'Vastu for commercial spaces',
+    'Vastu for workspace',
+    'Vastu colors for home',
+    'Vastu for entrance design',
+    'Vastu for bathroom placement',
+    'Vastu for study room',
+    'Vastu for dining area',
+    'Vastu for pooja room design',
+    'Vastu for main door direction',
+    'Vastu for furniture placement',
+    'Vastu for mirrors in home',
+    'Vastu for wall colors',
+    'Vastu for lighting in home',
+    'Vastu for positive vibes',
+    'Vastu for harmony and peace',
+    'Vastu for health and well-being',
+    'Vastu for career growth',
+    'Vastu for family happiness',
+    'Vastu for children room',
+    'Vastu for master bedroom',
+    'Vastu for north facing house',
+    'Vastu for south facing house',
+    'Vastu for east facing house',
+    'Vastu for west facing house',
+
     // Hindi Keywords
     'घर का इंटीरियर डिज़ाइन',
     'आधुनिक घर का डिज़ाइन',
@@ -142,17 +181,18 @@ export const metadata: Metadata = {
   category: 'Interior Design Services',
   classification: 'Interior Design Company',
   abstract: 'White Oak Interior offers premium interior design services across India, specializing in residential and commercial spaces with a focus on modern, sustainable, and innovative designs.',
-  themeColor: '#919073',
-  // viewport: {
-  //   width: 'device-width',
-  //   initialScale: 1,
-  //   maximumScale: 5,
-  // },
   // Add structured data for better rich results
   other: {
     // 'msapplication-TileColor': '#ffffff',
     // 'msapplication-config': '/browserconfig.xml',
   },
+};
+
+export const viewport = {
+  themeColor: '#919073',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({

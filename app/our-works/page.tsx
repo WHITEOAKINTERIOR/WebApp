@@ -22,15 +22,18 @@ export default function PortfolioPage() {
     : projects.filter(project => project.category === activeCategory);
 
   return (
-    <div className="min-h-screen">
+    <main className="min-h-screen">
       <PageHero
         title={"Our Portfolio"}
         description={"Explore our collection of beautifully designed spaces that reflect our passion for interior design"}
       />
 
-      {/* Portfolio Content */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
+     
+
+          {/* Projects Grid */}
+          <section className="py-20 bg-background">
+
+ <div className="container mx-auto px-4">
           {/* Category Filter */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             {categories.map((category) => (
@@ -46,8 +49,6 @@ export default function PortfolioPage() {
               </button>
             ))}
           </div>
-
-          {/* Projects Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project) => (
               <motion.div
@@ -88,19 +89,22 @@ export default function PortfolioPage() {
               </motion.div>
             ))}
           </div>
-
+</div>
+          </section>
+        
           {/* CTA Section */}
-          <div className="mt-20 text-center">
+          <section className="py-20 bg-primary/5">
+          <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-6">Ready to Start Your Project?</h2>
             <p className="text-gray-600 max-w-2xl mx-auto mb-8">
               Let's work together to bring your vision to life. Contact us today to discuss your next interior design project.
             </p>
-            <Button size="lg" className="px-8">
-              Get in Touch
+            <Button asChild size="lg">
+              <Link href="/contact">Get in Touch</Link>
             </Button>
           </div>
-        </div>
-      </section>
-    </div>
+          </section>
+       
+    </main>
   );
 }

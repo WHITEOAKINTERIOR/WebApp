@@ -11,7 +11,9 @@ interface ProjectLayoutProps {
 }
 
 export async function generateMetadata({ params }: ProjectLayoutProps): Promise<Metadata> {
-  const project = projectsContent.projects.find(p => p.id.toString() === params.id);
+  // Ensure params is resolved
+  const { id } = await params;
+  const project = projectsContent.projects.find(p => p.id.toString() === id);
   
   return {
     title: `${project?.title || 'Project'} | ${commonContent.companyName}`,

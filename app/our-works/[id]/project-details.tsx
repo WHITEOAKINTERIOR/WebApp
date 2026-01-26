@@ -65,7 +65,7 @@ export function ProjectDetails({ project }: { project: any }) {
                     </ul>
                 </div>
             </div>
-            <section className="py-20 bg-gray-50">
+            <section className="py-20 bg-primary/5">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl font-bold mb-6">Have a Similar Project in Mind?</h2>
                     <p className="text-gray-600 max-w-2xl mx-auto mb-8">

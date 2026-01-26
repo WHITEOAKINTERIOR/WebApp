@@ -36,7 +36,7 @@ export const testimonialsContent: TestimonialsContent = {
       name: "Jitendra Singh",
       role: "Tenant",
       company: "",
-      avatar: "/images/testimonials/client1.jpg",
+      avatar: "",
       content: "The team transformed our apartment into a modern masterpiece. Their attention to detail and design expertise is unmatched. We couldn't be happier with the results!",
       rating: 5,
       project: "Luxury Apartment",
@@ -55,7 +55,7 @@ export const testimonialsContent: TestimonialsContent = {
       name: "Michael Chen",
       role: "CEO",
       company: "TechStart Inc.",
-      avatar: "/images/testimonials/client2.jpg",
+      avatar: "",
       content: "Our new office space has completely transformed our company culture. The design is not only beautiful but also highly functional for our team's needs.",
       rating: 5,
     
@@ -65,7 +65,7 @@ export const testimonialsContent: TestimonialsContent = {
       name: "Emily Rodriguez",
       role: "Interior Designer",
       company: "DesignHub",
-      avatar: "/images/testimonials/client3.jpg",
+      avatar: "",
       content: "As a fellow designer, I'm extremely particular about details. This team's work is exceptional - their use of space and materials is truly inspiring.",
       rating: 4,
       project: "Minimalist Studio"

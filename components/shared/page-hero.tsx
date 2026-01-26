@@ -53,13 +53,13 @@ export function PageHero({
       </div>
 
       {/* Content */}
-      <div className={`container mx-auto px-4 pt-16 text-white ${getTextAlignmentClass(textAlign)}`}>
+      <div className={`container mx-auto px-4 pt-16 text-white/90 ${getTextAlignmentClass(textAlign)}`}>
         {subtitle && (
           <p className="text-lg md:text-xl font-medium mb-2 md:mb-4">
             {subtitle}
           </p>
         )}
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
+        <h1 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">
           {title}
         </h1>
         {description && (
