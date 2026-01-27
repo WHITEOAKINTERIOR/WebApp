@@ -70,7 +70,7 @@ const reverseGeocode = async (lat: number, lng: number): Promise<LocationData['a
 const getIPLocation = async (): Promise<Omit<LocationData, 'method' | 'error'>> => {
   try {
     // Using ip-api.com which provides more detailed location data
-    const response = await fetch('http://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,query');
+    const response = await fetch('https://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,query');
     const data = await response.json();
     
     if (data.status !== 'success') {
