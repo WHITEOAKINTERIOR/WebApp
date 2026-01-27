@@ -69,22 +69,23 @@ const reverseGeocode = async (lat: number, lng: number): Promise<LocationData['a
 // Get IP-based location with details
 const getIPLocation = async (): Promise<Omit<LocationData, 'method' | 'error'>> => {
   try {
-    // Using a service that supports HTTPS for free
-    // ip-api.com free tier doesn't support HTTPS, so we use ipinfo.io instead
-    const response = await fetch('https://ipinfo.io/json?token=2a9f6b4ac3d5b9');
+    // Using free HTTPS APIs for IP geolocation
+    // First get the IP address, then get location data
+    const ipResponse = await fetch('https://api.ipify.org?format=json');
+    const ipData = await ipResponse.json();
+    const userIP = ipData.ip;
+    
+    // Use ip-api.com with the specific IP (supports HTTPS with IP parameter)
+    const response = await fetch(`https://ip-api.com/json/${userIP}?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,query`);
     const data = await response.json();
     
-    if (data.error) {
-      throw new Error(data.error || 'IP geolocation service unavailable');
+    if (data.status !== 'success') {
+      throw new Error(data.message || 'IP geolocation service unavailable');
     }
     
-    // Parse coordinates from ipinfo.io (format: "lat,lon")
-    let lat = null, lon = null;
-    if (data.loc) {
-      const [latitude, longitude] = data.loc.split(',');
-      lat = parseFloat(latitude);
-      lon = parseFloat(longitude);
-    }
+    // Get coordinates from ip-api.com response
+    const lat = data.lat;
+    const lon = data.lon;
     
     // Get detailed address using reverse geocoding if we have coordinates
     let address: LocationData['address'] & { display_name?: string } = {};
@@ -98,14 +99,20 @@ const getIPLocation = async (): Promise<Omit<LocationData, 'method' | 'error'>> 
       accuracy: null, // IP geolocation doesn't provide accuracy
       address: {
         ...address,
-        // Map ipinfo.io fields to OSM address format for consistency
+        // Map ip-api.com fields to OSM address format for consistency
         city: data.city,
-        state: data.region,
+        state: data.regionName,
         country: data.country,
-        country_code: data.country?.toLowerCase(),
-        postcode: data.postal,
+        country_code: data.countryCode?.toLowerCase(),
+        postcode: data.zip,
+        // Custom mapping for district if available
+        ...(data.district && { 
+          city_district: data.district,
+          // Try to get more specific district if available
+          ...(address?.city_district ? {} : { city_district: data.district })
+        }),
       },
-      display_name: address?.display_name || `${data.city}, ${data.region}, ${data.country}`
+      display_name: address?.display_name || `${data.city}, ${data.regionName}, ${data.country}`
     };
   } catch (error) {
     console.error('IP geolocation error:', error);
