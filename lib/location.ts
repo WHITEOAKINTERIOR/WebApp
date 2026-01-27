@@ -69,14 +69,9 @@ const reverseGeocode = async (lat: number, lng: number): Promise<LocationData['a
 // Get IP-based location with details
 const getIPLocation = async (): Promise<Omit<LocationData, 'method' | 'error'>> => {
   try {
-    // Using free HTTPS APIs for IP geolocation
-    // First get the IP address, then get location data
-    const ipResponse = await fetch('https://api.ipify.org?format=json');
-    const ipData = await ipResponse.json();
-    const userIP = ipData.ip;
-    
-    // Use ip-api.com with the specific IP (supports HTTPS with IP parameter)
-    const response = await fetch(`https://ip-api.com/json/${userIP}?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,query`);
+    // Using our own API proxy to avoid mixed content issues
+    // The server-side proxy makes the HTTP request, client gets HTTPS response
+    const response = await fetch('/api/location');
     const data = await response.json();
     
     if (data.status !== 'success') {
