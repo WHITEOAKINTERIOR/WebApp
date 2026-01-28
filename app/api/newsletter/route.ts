@@ -1,7 +1,6 @@
-// app/api/contact/route.ts
+// app/api/newsletter/route.ts
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { capitalizeFirstOnly, formatAreas } from '@/lib/utils/string';
 
 // Initialize Resend with your API key
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -12,124 +11,107 @@ export async function POST(request: Request) {
         const contentType = request.headers.get('content-type');
 
         // Handle different content types
-        if (contentType?.includes('application/x-www-form-urlencoded')) {
-            const formData = await request.formData();
-            const formDataObj = Object.fromEntries(formData.entries());
-            body = {
-                ...formDataObj,
-                auto_submit: formDataObj.auto_submit === 'true'  // Convert to boolean here
-            };
-        } else if (contentType?.includes('application/json')) {
+        if (contentType?.includes('application/json')) {
             body = await request.json();
+        } else if (contentType?.includes('application/x-www-form-urlencoded')) {
+            const text = await request.text();
+            const params = new URLSearchParams(text);
+            body = Object.fromEntries(params.entries());
         } else {
-            // Try to parse as JSON if content-type is not set
-            try {
-                body = await request.json();
-            } catch {
-                return new Response(
-                    JSON.stringify({ error: 'Invalid content type' }),
-                    { status: 400, headers: { 'Content-Type': 'application/json' } }
-                );
-            }
-        }
-
-        const { lookingFor: rawLookingFor = "", name: rawName = 'Guest', email, phone, message = '', subject = 'New Enquiry', address = "No address found", address_method = "None", auto_submit = false, property } = body;
-        const lookingFor = rawLookingFor ? rawLookingFor.charAt(0).toUpperCase() + rawLookingFor.slice(1) : "";
-        const name = !rawName || rawName.trim() === '' ? 'Guest' :
-            rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase();
-
-        // Format cost estimation data if available
-        const formatproperty = (costEst: any) => {
-            if (!costEst) return '';
-            
-            const { propertyType, rooms, style, selectedAreas } = costEst;
-            let propertyText = `\n--- ${subject} ---\n`;
-            propertyText += `Property Type: ${propertyType ? capitalizeFirstOnly(propertyType) : 'Not specified'}\n`;
-            propertyText += `Configuration: ${rooms ? capitalizeFirstOnly(rooms) : 'Not specified'}\n`;
-            propertyText += `Design Style: ${style ? capitalizeFirstOnly(style) : 'Not specified'}\n`;
-            
-            if (selectedAreas && Array.isArray(selectedAreas) && selectedAreas.length > 0) {
-                propertyText += `Areas to Design: ${formatAreas(selectedAreas)}\n`;
-            }
-            
-            return propertyText;
-        };
-
-        const formatpropertyHTML = (costEst: any) => {
-            if (!costEst) return '';
-            
-            const { propertyType, rooms, style, selectedAreas } = costEst;
-            let html = '<div style="background: #f0f8ff; padding: 15px; border-left: 4px solid #919073; margin: 15px 0; border-radius: 5px;">';
-            html += `<h3 style="color: #333; margin-top: 0; margin-bottom: 10px;">${subject}</h3>`;
-            html += `<p><strong>Property Type:</strong> ${propertyType ? capitalizeFirstOnly(propertyType) : 'Not specified'}</p>`;
-            html += `<p><strong>Configuration:</strong> ${rooms ? rooms.toUpperCase() : 'Not specified'}</p>`;
-            html += `<p><strong>Design Style:</strong> ${style ? capitalizeFirstOnly(style) : 'Not specified'}</p>`;
-            
-            if (selectedAreas && Array.isArray(selectedAreas) && selectedAreas.length > 0) {
-                html += `<p><strong>Areas to Design:</strong> ${formatAreas(selectedAreas)}</p>`;
-            }
-            
-            html += '</div>';
-            return html;
-        };
-
-        if (!email && !phone) {
             return NextResponse.json(
-                { error: 'Either email or phone is required' },
-                { status: 400 }
+                { error: 'Unsupported content type' },
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
             );
         }
 
-        // Send email using Resend
-        const { data, error } = await resend.emails.send({
-            from: 'White Oak Interior <info@whiteoakinterior.com>',
-            to: [process.env.ADMIN_EMAIL || 'info@whiteoakinterior.com'],
-            subject: `${subject} from ${name}`,
-            text: `
-           LookingFor: ${lookingFor}
-        Name: ${name}
-        Email: ${email || 'Not provided'}
-        Phone: ${phone || 'Not provided'}
-        Message: ${message || 'No message provided'}
-        Address: ${address}
-        Address_Method: ${address_method}
-        Auto_Submit: ${auto_submit}${formatproperty(property)}
-      `,
-            html: `
-        <h2>${subject}</h2>
-        <p><strong>LookingFor:</strong> ${lookingFor}</p>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email || 'Not provided'}</p>
-        <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
-        ${message ? `<p><strong>Message:</strong><br> ${message}</p>` : ''}
-        <p><strong>Address_Method:</strong> ${address_method}</p>
-        <p><strong>Address:</strong> ${address}</p>
-        <p><strong>Auto_Submit:</strong> ${auto_submit}</p>
-        ${formatpropertyHTML(property)}
-      `,
-        });
+        const { email, name = '' } = body;
 
-        if (error) {
-            console.error('Error sending email:', error);
-            throw new Error('Failed to send email');
+        // Validate required fields
+        if (!email) {
+            return NextResponse.json(
+                { error: 'Email is required' },
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
         }
 
-        // Send thank you email to the requester if email was provided
-        if (email && !auto_submit) {
-            const { error: thankYouError } = await resend.emails.send({
-                from: 'White Oak Interior <info@whiteoakinterior.com>',
-                to: email,
-                subject: 'Thank you for contacting White Oak Interior',
-                text: `Dear ${name},\n\nThank you for reaching out to White Oak Interior. We have received your enquiry and our team will get back to you shortly.\n\nBest regards,\n The White Oak Interior Team, \n https://www.whiteoakinterior.com`,
-                html: `
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return NextResponse.json(
+                { error: 'Invalid email format' },
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
+
+        // Add contact to Resend audience (newsletter list)
+        // const { data, error } = await resend.contacts.create({
+        //     email: email,
+        //     firstName: name.split(' ')[0] || '',
+        //     lastName: name.split(' ').slice(1).join(' ') || '',
+        //     unsubscribed: false,
+        //     audienceId: process.env.RESEND_AUDIENCE_ID || 'default-audience-id'
+        // });
+
+        // if (error) {
+        //     console.error('Error adding contact to newsletter:', error);
+
+        //     // Handle specific error cases
+        //     if (error.message?.includes('already exists')) {
+        //         return NextResponse.json(
+        //             { 
+        //                 success: true, 
+        //                 message: 'You are already subscribed to our newsletter!' 
+        //             },
+        //             { status: 200, headers: { 'Content-Type': 'application/json' } }
+        //         );
+        //     }
+
+        //     throw new Error('Failed to subscribe to newsletter');
+        // }
+
+        // Send confirmation email to subscriber
+        const { error: confirmationError } = await resend.emails.send({
+            from: 'White Oak Interior <info@whiteoakinterior.com>',
+            to: email,
+            subject: 'Welcome to White Oak Interior Newsletter!',
+            text: `Dear ${name || 'Subscriber'},
+            
+Thank you for subscribing to the White Oak Interior newsletter!
+            
+You'll now receive:
+- Latest interior design trends
+- Vastu tips and insights
+- Exclusive project showcases
+- Special offers and updates
+            
+Stay tuned for inspiring content to transform your living spaces.
+            
+Best regards,
+The White Oak Interior Team
+https://www.whiteoakinterior.com
+
+---
+If you didn't subscribe to this newsletter, please ignore this email.
+To unsubscribe, reply to this email with the subject line "Unsubscribe"`,
+            html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333;">Thank you for contacting White Oak Interior!</h2>
-        <p>Dear ${name},</p>
-        <p>We have received your enquiry and our team will review it shortly. We'll get back to you as soon as possible.</p>
-        </br>
-        </br>
-        <p>If you have any urgent questions, feel free to contact us at info@whiteoakinterior.com or call us at +91 9560885007.</p>
-        <p>Best regards,<br>The White Oak Interior Team</p>
+        <h2 style="color: #333;">Welcome to White Oak Interior Newsletter! 🎉</h2>
+        <p>Dear ${name || 'Subscriber'},</p>
+        <p>Thank you for subscribing to the White Oak Interior newsletter!</p>
+        
+        <div style="background: #f9f9f9; padding: 20px; border-left: 4px solid #919073; margin: 20px 0; border-radius: 5px;">
+          <h3 style="color: #333; margin-top: 0;">What You'll Receive:</h3>
+          <ul style="color: #666; line-height: 1.6;">
+            <li>✨ Latest interior design trends</li>
+            <li>🏛️ Vastu tips and insights</li>
+            <li>🏠 Exclusive project showcases</li>
+            <li>🎁 Special offers and updates</li>
+          </ul>
+        </div>
+        
+        <p>Stay tuned for inspiring content to transform your living spaces.</p>
+        
+         <p>Best regards,<br>The White Oak Interior Team</p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
         <div style="margin-bottom: 5px;">
             <a href="https://www.whiteoakinterior.com" style="display: inline-block;">
@@ -144,25 +126,70 @@ export async function POST(request: Request) {
           India<br>
           <a href="https://www.whiteoakinterior.com" style="color: #919073;">www.whiteoakinterior.com</a>
         </p>
+        
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+        <p style="font-size: 12px; color: #999;">
+          If you didn't subscribe to this newsletter, please ignore this email.<br>
+          To unsubscribe, reply to this email with the subject line "Unsubscribe"
+        </p>
       </div>
-    `,
-            });
-            if (thankYouError) {
-                console.error('Error sending thank you email:', thankYouError);
-                // Don't throw error for failed thank you email, just log it
-            }
+      `,
+        });
+
+        if (confirmationError) {
+            console.error('Error sending confirmation email:', confirmationError);
+           throw new Error('Failed to subscribe to newsletter');
+        }
+
+        // Send notification to admin
+        const { error: adminNotificationError } = await resend.emails.send({
+            from: 'White Oak Interior <info@whiteoakinterior.com>',
+            to: [process.env.ADMIN_EMAIL || 'info@whiteoakinterior.com'],
+            subject: 'New Newsletter Subscription',
+            text: `New newsletter subscription:
+            
+Email: ${email}
+Name: ${name || 'Not provided'}
+Time: ${new Date().toLocaleString()}
+
+Subscriber has been added to the newsletter list.`,
+            html: `
+        <h2>New Newsletter Subscription</h2>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Name:</strong> ${name || 'Not provided'}</p>
+        <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+        
+      `,
+        });
+
+        if (adminNotificationError) {
+            console.error('Error sending admin notification:', adminNotificationError);
+            throw new Error('Failed to subscribe to newsletter');
         }
 
         return NextResponse.json(
-            { message: 'Enquiry submitted successfully' },
-            { status: 200 }
+            {
+                success: true,
+                message: 'Successfully subscribed to newsletter!'
+            },
+            { status: 200, headers: { 'Content-Type': 'application/json' } }
         );
 
     } catch (error) {
-        console.error('Error processing enquiry:', error);
+        console.error('Newsletter subscription error:', error);
         return NextResponse.json(
-            { error: 'Internal server error' },
-            { status: 500 }
+            {
+                error: 'Failed to subscribe to newsletter. Please try again.'
+            },
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
         );
     }
+}
+
+// Handle other HTTP methods
+export async function GET() {
+    return NextResponse.json(
+        { error: 'Method not allowed' },
+        { status: 405, headers: { 'Content-Type': 'application/json' } }
+    );
 }

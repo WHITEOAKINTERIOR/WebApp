@@ -42,9 +42,20 @@ interface EnquiryFormProps {
     showMessage?: boolean;
     showLookingFor?: boolean;
     subject?: string;
+    propertyData?: {
+        propertyType: string;
+        rooms: string;
+        style: string;
+        selectedAreas: { [key: string]: boolean };
+    };
 }
 
-export function EnquiryForm({ onSuccess, showMessage = false, showLookingFor = true, subject = "" }: EnquiryFormProps) {
+export function EnquiryForm({ 
+    onSuccess,
+    showMessage = false,
+    showLookingFor = true,
+    subject = "New Enquiry",
+    propertyData }: EnquiryFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const beaconSentRef = useRef(false);
 
@@ -169,12 +180,28 @@ export function EnquiryForm({ onSuccess, showMessage = false, showLookingFor = t
             // Format the address for display
             const formattedAddress = formatAddress(location.address);
 
+            // Prepare submission data with cost estimation details
+            const submissionData = {
+                ...values,
+                address: formattedAddress,
+                address_method: location.method,
+                subject: subject,
+                property: propertyData ? {
+                    propertyType: propertyData.propertyType,
+                    rooms: propertyData.rooms,
+                    style: propertyData.style,
+                    selectedAreas: Object.entries(propertyData.selectedAreas)
+                        .filter(([_, selected]) => selected)
+                        .map(([area]) => area)
+                } : undefined
+            };
+
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...values, address: formattedAddress, address_method: location.method }),
+                body: JSON.stringify(submissionData),
             })
             if (response.ok) {
                 toast({

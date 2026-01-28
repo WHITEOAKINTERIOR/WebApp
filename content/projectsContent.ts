@@ -39,7 +39,7 @@ export const projectsContent: ProjectsContent = {
       category: "Commercial",
       description: "Sleek and functional office space designed to inspire creativity and productivity, featuring open work areas, private meeting rooms, and modern amenities.",
       image: "/images/projects/office-space.jpg",
-      location: "San Francisco, CA",
+      location: "Gurugram, Haryana, India",
       updatedAt: "2026-01-15"
     },
     {
@@ -48,7 +48,7 @@ export const projectsContent: ProjectsContent = {
       category: "Residential",
       description: "Luxurious waterfront villa offering breathtaking ocean views, spacious interiors, and resort-style amenities in an exclusive neighborhood.",
       image: "/images/projects/bedroom.jpg",
-      location: "Miami, FL",
+      location: "Mayur Vihar, Delhi, India",
       updatedAt: "2026-01-15"
     },
     {
@@ -57,7 +57,7 @@ export const projectsContent: ProjectsContent = {
       category: "Residential",
       description: "Compact yet functional studio apartment featuring smart storage solutions, multi-functional furniture, and a clean, minimalist aesthetic.",
       image: "/images/projects/kitchen.jpg",
-      location: "Seattle, WA",
+      location: "Marathahalli, Bangalore, India",
       updatedAt: "2026-01-15"
     },
     {
@@ -66,7 +66,7 @@ export const projectsContent: ProjectsContent = {
       category: "Commercial",
       description: "Inviting lounge area with comfortable seating, warm lighting, and a relaxed atmosphere perfect for socializing or quiet relaxation.",
       image: "/images/projects/lounge.jpg",
-      location: "Chicago, IL",
+      location: "Greater Noida, Uttar Pradesh, India",
       updatedAt: "2026-01-15"
     },
     {
@@ -75,7 +75,7 @@ export const projectsContent: ProjectsContent = {
       category: "Residential",
       description: "State-of-the-art kitchen design featuring high-end appliances, custom cabinetry, and an open-concept layout perfect for entertaining.",
       image: "/images/projects/kitchen.jpg",
-      location: "Boston, MA",
+      location: "Sector-75, Noida, India",
       updatedAt: "2026-01-15"
     }
   ]

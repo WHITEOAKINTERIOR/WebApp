@@ -72,12 +72,12 @@ export function Navbar() {
     return (
         <header
             className={`w-full ${shouldBeFixed
-                ? "fixed bg-primary/95 top-0 left-0 right-0 backdrop-blur-md shadow-lg z-50"
+                ? "fixed bg-primary top-0 left-0 right-0 backdrop-blur-md shadow-lg z-50"
                 : "absolute top-8 left-0 right-0 z-50"
                 }`}
         >
             <div className={`container mx-auto px-4 ${!shouldBeFixed
-                ? "bg-primary/95 rounded-lg"
+                ? "bg-primary rounded-lg"
                 : ""
                 }`}>
                 <div className="flex justify-between items-center h-[4.25rem]">

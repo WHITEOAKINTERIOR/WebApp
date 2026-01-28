@@ -18,7 +18,7 @@ export const heroContent: HeroContent = {
     dark: "/images/hero-background.avif",
     alt: commonContent.companyName,
   },
-  heading: `Transform your space with`,
+  heading: `Transform your space into \n Vastu-Aligned Interiors \n for Prosperous Living`,
  
   form: {
     title: "Book Free Consultation",

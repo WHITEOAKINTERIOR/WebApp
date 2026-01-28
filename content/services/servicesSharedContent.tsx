@@ -36,26 +36,32 @@ export interface ServicesContent {
 export const allServices: ServiceItem[] = [
   {
     title: "Residential Design",
-    description: "Transform your home into a beautiful and functional space that reflects your personal style.",
+    description: "Transform your home into a beautiful and functional space that reflects your personal style with Vastu-compliant design principles.",
     icon: <Home className="w-6 h-6" />,
     features: [
-      "Space planning & layout",
-      "Furniture selection",
-      "Color consultation",
+      "Vastu-compliant space planning",
+      "Direction-based layout design",
+      "Energy flow optimization",
+      "Furniture selection & placement",
+      "Color consultation per Vastu",
       "Lighting design",
-      "Material & finish selection"
+      "Material & finish selection",
+      "Vastu remedies & corrections"
     ]
   },
   {
     title: "Commercial Design",
-    description: "Create inspiring work environments that boost productivity and reflect your brand identity.",
+    description: "Create inspiring work environments that boost productivity and reflect your brand identity with Vastu-aligned commercial spaces.",
     icon: <Building className="w-6 h-6" />,
     features: [
-      "Office space planning",
+      "Vastu-compliant office planning",
+      "Direction-based seating arrangements",
+      "Prosperity zone optimization",
       "Brand integration",
       "Reception & lobby design",
       "Conference rooms",
-      "Breakout areas"
+      "Breakout areas",
+      "Energy flow for business growth"
     ]
   },
   {

@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 // components/hero.tsx
 import Image from 'next/image'
 import { useState } from 'react';
@@ -51,14 +52,19 @@ export function Hero() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                     {/* Left side - Content (2/3 width on lg screens) */}
                     <div className="lg:col-span-2 space-y-6 justify-center">
-                        <h3 className="text-2xl text-center md:text-5xl font-bold tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)]">
-                            {heroContent.heading}
-                        </h3>
-                        <h3 className="text-2xl text-center md:text-5xl font-bold tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)]">
+                        <div className="text-2xl text-center md:text-5xl font-normal tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)] leading-normal md:leading-normal">
+                            {heroContent.heading.split('\n').map((line, index) => (
+                                <React.Fragment key={index}>
+                                    {line}
+                                    {index < heroContent.heading.split('\n').length - 1 && <br />}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                        {/* <h3 className="text-2xl text-center md:text-5xl font-bold tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)]">
                             {commonContent.companyName}
-                        </h3>
+                        </h3> */}
                         <div className="flex flex-wrap flex-col gap-4 pt-4 w-full items-center">
-                                <Button variant={"default"} className='w-64'                               >
+                                <Button variant={"default"} className='w-64 md:hidden'                               >
                                     <Link href='/services'>
                                     {"Explore more"}
                                     </Link>
@@ -82,7 +88,7 @@ export function Hero() {
                     </div>
 
                     {/* Right side - Enquiry Form (1/3 width on lg screens) */}
-                    <div className="hidden md:block lg:col-span-1 bg-background/80 backdrop-blur-sm px-6 py-4 my-0 mx-8 rounded-lg shadow-lg border border-border">
+                    <div className="hidden md:block lg:col-span-1 bg-background backdrop-blur-sm px-6 py-4 my-0 mx-8 rounded-lg shadow-lg border border-border">
                         <h2 className="text-xl font-bold mb-2 text-center">
                             {heroContent.form.title}
                         </h2>

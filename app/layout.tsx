@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
-import { FloatingButtons } from "@/components/floating-buttons";
+import { SideButtons } from "@/components/side-buttons";
 import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import { commonContent } from "@/content/sharedContent";
 import { CookieBanner } from "@/components/cookie-banner";
+import { FloatingButtons } from "@/components/floating-buttons";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -234,6 +235,7 @@ export default function RootLayout({
 
           <Footer />
           <FloatingButtons />
+          <SideButtons />
           <Toaster />
           <CookieBanner />
         </main>
