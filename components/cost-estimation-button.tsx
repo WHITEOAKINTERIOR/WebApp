@@ -11,10 +11,10 @@ export function CostEstimationButton({ isNearBottom = false }: CostEstimationBut
   return (
     <Link
       href="/cost-estimation"
-      className={`group relative bg-gradient-to-r from-purple-600 to-primary hover:from-purple-700 hover:to-[#7a7962] text-white rounded-r-2xl shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl flex items-center gap-3 justify-start ${
+      className={`group relative bg-gradient-to-r from-purple-600 to-primary hover:from-purple-700 hover:to-[#7a7962] text-white rounded-r-2xl shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl flex items-center gap-4 justify-start ${
         isNearBottom 
-          ? 'px-3 py-2 min-w-[48px]' 
-          : 'px-6 py-4 min-w-[220px]'
+          ? 'px-3 py-2' 
+          : 'px-4 py-2 md:px-6 md:py-4'
       }`}
       aria-label="Get Free Cost Estimation"
     >
@@ -27,7 +27,7 @@ export function CostEstimationButton({ isNearBottom = false }: CostEstimationBut
             <span className="text-sm">Free Cost</span>
             <span className="text-sm">Estimation</span>
           </div>
-          <Sparkles className="w-4 h-4 animate-pulse ml-auto" />
+          <Sparkles className="w-6 h-6 animate-pulse ml-auto" />
         </>
       )}
       <div className="absolute inset-0 rounded-r-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>

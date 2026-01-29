@@ -52,7 +52,7 @@ export function Hero() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                     {/* Left side - Content (2/3 width on lg screens) */}
                     <div className="lg:col-span-2 space-y-6 justify-center">
-                        <div className="text-2xl text-center md:text-5xl font-normal tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)] leading-normal md:leading-normal">
+                        <div className="text-2xl text-center md:text-5xl font-light tracking-tight text-white [text-shadow:1px_1px_6px_rgba(0,0,0,0.8)] leading-normal md:leading-normal">
                             {heroContent.heading.split('\n').map((line, index) => (
                                 <React.Fragment key={index}>
                                     {line}

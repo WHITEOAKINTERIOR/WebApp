@@ -18,7 +18,7 @@ async function getWorks() {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static routes
-  const staticRoutes = ['', '/about', '/contact', '/services', '/our-work'].map(route => ({
+  const staticRoutes = ['', '/about', '/contact', '/services', '/our-work', '/3d-visulization', 'cost-estimation'].map(route => ({
     url: `${URL}${route}`,
     lastModified: new Date().toISOString().split('T')[0],
     changeFrequency: 'daily' as const,

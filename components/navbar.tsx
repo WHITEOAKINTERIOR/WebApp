@@ -80,7 +80,7 @@ export function Navbar() {
                 ? "bg-primary rounded-lg"
                 : ""
                 }`}>
-                <div className="flex justify-between items-center h-[4.25rem]">
+                <div className="flex justify-between items-center h-[5rem]">
                     {/* Logo */}
                     <Link href="/" className="flex items-center">
                         <Image
@@ -88,11 +88,11 @@ export function Navbar() {
                             alt={commonContent.companyName}
                             width={160}  // Adjust based on your logo's aspect ratio
                             height={160}  // Adjust based on your logo's aspect ratio
-                            className="h-12 w-auto"  // Maintain aspect ratio
+                            className="h-12 md:h-16 w-auto"  // Maintain aspect ratio
                             priority
                         />
                         <span className="sr-only">{commonContent.companyName}</span>
-                        <span className="text-xl px-[0.5rem] font-bold text-primary-foreground whitespace-nowrap">
+                        <span className="text-2xl md:text-3xl px-[0.5rem] font-normal text-primary-foreground whitespace-nowrap">
                             {commonContent.companyName}
                         </span>
                     </Link>
@@ -138,7 +138,7 @@ export function Navbar() {
                             <Button 
                                 size="sm" 
                                 variant="outline"
-                                className="ml-8 border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 transition-all duration-300"
+                                className="ml-8 border-foreground/20 hover:border-foreground/40 hover:bg-foreground/5 hover:text-white transition-all duration-300"
                             >
                                 Contact Us
                             </Button>

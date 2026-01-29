@@ -28,9 +28,9 @@ export default function CostEstimation() {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-600 to-primary rounded-full mb-6">
               <Calculator className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
               Free Cost Estimation
-            </h1>
+            </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Get a detailed cost breakdown for your interior design project. No hidden charges, complete transparency.
             </p>

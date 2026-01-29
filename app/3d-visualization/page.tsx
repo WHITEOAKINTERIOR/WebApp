@@ -26,9 +26,12 @@ export default function ThreeDVisualization() {
         description={"Experience your dream interior design in stunning 3D. Visualize every detail before we begin."}
       />
 
-     <div className="bg-gradient-to-br from-purple-50 to-primary/20 py-12 px-4">
+      <div className="bg-gradient-to-br from-purple-50 to-primary/20 py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-600 to-primary rounded-full mb-6">
+              <Box className="w-10 h-10 text-white" />
+            </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
               Interactive 3D Room Visualization
             </h2>
@@ -40,9 +43,9 @@ export default function ThreeDVisualization() {
           <div className="grid lg:grid-cols-1 gap-8">
             {/* Cost Estimation Form */}
             <div className="lg:col-span-2">
-              <PropertySelectorForm buttonText='Get 3D Visualization' />
+              <PropertySelectorForm buttonText='Get Free 3D Visualization' />
             </div>
-          </div>         
+          </div>
         </div>
       </div>
     </div>

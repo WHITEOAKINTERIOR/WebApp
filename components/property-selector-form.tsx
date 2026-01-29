@@ -11,7 +11,7 @@ interface PropertySelectorFormProps {
 
 export function PropertySelectorForm({ 
   onSuccess, 
-  buttonText = "Get Cost Estimation",
+  buttonText = "Get Free Cost Estimation",
   }: PropertySelectorFormProps) {
   const [formData, setFormData] = useState({
     propertyType: 'apartment',

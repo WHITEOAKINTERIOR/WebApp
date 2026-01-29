@@ -11,10 +11,10 @@ export function VisualizationButton({ isNearBottom = false }: VisualizationButto
   return (
     <Link
       href="/3d-visualization"
-      className={`group relative bg-gradient-to-r from-primary to-amber-700 hover:from-amber-800 hover:to-amber-900 text-white rounded-r-2xl shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl flex items-center gap-3 justify-start ${
+      className={`group relative bg-gradient-to-r from-primary to-amber-700 hover:from-amber-800 hover:to-amber-900 text-white rounded-r-2xl shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl flex items-center gap-4 justify-start ${
         isNearBottom 
-          ? 'px-3 py-2 min-w-[48px] mt-2' 
-          : 'px-6 py-4 min-w-[220px] mt-4'
+          ? 'px-3 py-2 mt-2' 
+          : 'px-4 py-2 md:px-6 md:py-4 mt-4'
       }`}
       aria-label="View 3D Visualization"
     >
@@ -27,8 +27,8 @@ export function VisualizationButton({ isNearBottom = false }: VisualizationButto
             <span className="text-sm">Free 3D</span>
             <span className="text-sm">Visualization</span>
           </div>
-          <div className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full animate-ping"></div>
-          <div className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full"></div>
+          <div className="ml-auto w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
+          {/* <div className="ml-auto w-6 h-6 bg-red-500 rounded-full"></div> */}
         </>
       )}
       <div className="absolute inset-0 rounded-r-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
