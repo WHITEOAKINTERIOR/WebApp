@@ -25,7 +25,7 @@ export default function PortfolioPage() {
     <main className="min-h-screen">
       <PageHero
         title={"Our Portfolio"}
-        description={"Explore our collection of beautifully designed spaces that reflect our passion for interior design"}
+        description={"Explore our collection of beautifully designed spaces"}
       />
 
      

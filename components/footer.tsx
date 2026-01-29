@@ -61,7 +61,7 @@ export function Footer() {
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-400/80 mr-2 group-hover:bg-white transition-all duration-300"></span>
                 Services
               </Link></li>
-              <li><Link href="/projects" className="text-sm text-slate-50 hover:text-white transition-all duration-300 flex items-center group">
+              <li><Link href="/our-works" className="text-sm text-slate-50 hover:text-white transition-all duration-300 flex items-center group">
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-400/80 mr-2 group-hover:bg-white transition-all duration-300"></span>
                 Projects
               </Link></li>

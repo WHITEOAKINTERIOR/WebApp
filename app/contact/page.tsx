@@ -13,7 +13,7 @@ export default function ContactPage() {
     <div className="min-h-screen">
       <PageHero
         title={"Get in Touch"}
-        description={"We'd love to hear from you. Reach out to us for any questions or to schedule a consultation for your next interior design project."}
+        description={"We'd love to hear from you"}
       />
 
       {/* Contact Info & Form Section */}

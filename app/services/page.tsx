@@ -17,7 +17,7 @@ export default function ServicesPage() {
     <div className="min-h-screen">
       <PageHero 
       title={"Transforming Spaces"}
-      description={"We deliver exceptional interior design solutions tailored to your unique needs and style."}
+      description={"We deliver exceptional interior design solutions"}
       />
       
       {/* Services Grid */}
