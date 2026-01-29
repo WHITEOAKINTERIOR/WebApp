@@ -92,7 +92,7 @@ export function Navbar() {
                             priority
                         />
                         <span className="sr-only">{commonContent.companyName}</span>
-                        <span className="text-2xl md:text-3xl px-[0.5rem] font-normal text-primary-foreground whitespace-nowrap">
+                        <span className="text-xl md:text-3xl px-[0.5rem] font-normal text-primary-foreground whitespace-nowrap">
                             {commonContent.companyName}
                         </span>
                     </Link>
@@ -147,15 +147,20 @@ export function Navbar() {
 
                     {/* Mobile menu button */}
                     <div className="md:hidden">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="md:hidden text-primary-foreground hover:bg-primary-foreground/20"
+                        <button
+                            className="md:hidden text-primary-foreground hover:bg-primary-foreground/20 relative group h-12 w-12 rounded-lg flex items-center justify-center transition-all duration-300"
                             onClick={() => setIsOpen(!isOpen)}
                             aria-label="Toggle menu"
                         >
-                            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                        </Button>
+                            <div className="relative">
+                                {isOpen ? (
+                                    <X className="h-8 w-8 transition-all duration-300 scale-100 drop-shadow-md" />
+                                ) : (
+                                    <Menu className="h-8 w-8 transition-all duration-300 group-hover:scale-110 drop-shadow-md" />
+                                )}
+                                <div className="absolute -inset-2 bg-primary-foreground/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300" />
+                            </div>
+                        </button>
                     </div>
                 </div>
 
