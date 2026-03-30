@@ -3,7 +3,7 @@ export const commonContent = {
     companyName: "White Oak Interior",
     companyLogo: "/images/logo.png",
     companyDescription: "White Oak Interior is a leading interior design company that specializes in creating beautiful and functional spaces for our clients.",
-    phone: "+91 9560885007",
+    phone: "+91 9910591140",
     Email: "info@whiteoakinterior.com",
     Address: "Noida, Uttar Pradesh, India",
     facebook: "https://www.facebook.com/whiteoakinterior",
